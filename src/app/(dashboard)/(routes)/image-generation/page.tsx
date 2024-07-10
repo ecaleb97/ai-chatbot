@@ -176,7 +176,13 @@ export default function ImageGenerationPage() {
 					{images.map((image) => (
 						<Card key={image} className="rounded-lg overflow-hidden">
 							<CardContent className="relative aspect-square p-0">
-								<Image src={image} alt="Image" className="object-cover size-full" width="150" height="150" />
+								<Image
+									src={image}
+									alt="Image"
+									className="object-cover size-full"
+									width="150"
+									height="150"
+								/>
 							</CardContent>
 							<CardFooter className="p-3">
 								<Button

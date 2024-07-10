@@ -2,7 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
 import { Sidebar } from "./sidebar";
 import { useEffect, useState } from "react";
 
@@ -23,6 +30,10 @@ export function MobileSidebar() {
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="left" className="p-0">
+				<SheetHeader className="hidden">
+					<SheetTitle className="hidden"></SheetTitle>
+					<SheetDescription className="hidden"></SheetDescription>
+				</SheetHeader>
 				<Sidebar />
 			</SheetContent>
 		</Sheet>
