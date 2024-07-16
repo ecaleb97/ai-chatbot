@@ -11,21 +11,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 import { useChat } from "ai/react";
 import { cn } from "@/lib/utils";
 import { Empty } from "@/components/share/empty";
 import { Loader } from "@/components/share/loader";
 import { UserAvatar } from "@/components/share/user-avatar";
 import { AIAvatar } from "@/components/share/ai-avatar";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function ConversationPage() {
 	const router = useRouter();
 	// const [messages, setMessages] = useState<ChatCompletionUserMessageParam[]>(
 	// 	[],
 	// );
-	const { messages, handleSubmit, handleInputChange, input } = useChat({
+	const { messages, handleSubmit, handleInputChange, input, error } = useChat({
 		api: "/api/conversation",
+		onFinish: () => {
+			router.refresh();
+		},
 	});
 	const form = useForm<z.infer<typeof conversationSchema>>({
 		resolver: zodResolver(conversationSchema),
@@ -56,16 +60,22 @@ export default function ConversationPage() {
 	// 	}
 	// };
 
-	// const onSubmit = () => {
-	// 	try {
-	// 		handleSubmit();
-	// 		form.reset();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	} finally {
-	// 		router.refresh();
-	// 	}
-	// };
+	useEffect(() => {
+		if (error) {
+			toast.error(error.message);
+		}
+	}, [error]);
+
+	const onSubmit = () => {
+		try {
+			handleSubmit();
+			form.reset();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			router.refresh();
+		}
+	};
 
 	console.log(messages);
 

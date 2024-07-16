@@ -134,7 +134,8 @@ export default function CodeGenerationPage() {
 									className={cn(
 										"p-4 w-[90%] flex flex-col justify-start rounded-lg bg-muted",
 										{
-											"bg-white border border-black/10 ml-auto text-pretty sm:w-fit": message.role === "user",
+											"bg-white border border-black/10 ml-auto text-pretty sm:w-fit":
+												message.role === "user",
 										},
 									)}
 								>
