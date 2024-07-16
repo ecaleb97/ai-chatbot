@@ -13,7 +13,7 @@ import {
 import { Sidebar } from "./sidebar";
 import { useEffect, useState } from "react";
 
-export function MobileSidebar() {
+export function MobileSidebar({ apiLimitCount }: { apiLimitCount: number }) {
 	const [isMounted, setIsMounted] = useState(false);
 
 	useEffect(() => {
@@ -25,16 +25,16 @@ export function MobileSidebar() {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button variant="ghost" size="icon" className="md:hidden">
+				<Button variant="ghost" size="icon" className="sm:hidden">
 					<Menu />
 				</Button>
 			</SheetTrigger>
-			<SheetContent side="left" className="p-0">
+			<SheetContent side="left" className="p-0 md:hidden">
 				<SheetHeader className="hidden">
 					<SheetTitle className="hidden"></SheetTitle>
 					<SheetDescription className="hidden"></SheetDescription>
 				</SheetHeader>
-				<Sidebar />
+				<Sidebar apiLimitCount={apiLimitCount} />
 			</SheetContent>
 		</Sheet>
 	);

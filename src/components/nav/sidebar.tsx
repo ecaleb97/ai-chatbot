@@ -14,6 +14,7 @@ import {
 	VideoIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { FreeTrialCounter } from "./free-trial-counter";
 
 const montserrat = Montserrat({
 	weight: "600",
@@ -64,11 +65,15 @@ const routes = [
 	},
 ];
 
-export function Sidebar() {
+type Props = {
+	apiLimitCount: number;
+};
+
+export function Sidebar({ apiLimitCount }: Props) {
 	const pathname = usePathname();
 
 	return (
-		<div className="space-y-4 py-4 flex flex-col h-full bg-gray-800 text-white">
+		<div className="space-y-4 py-4 flex flex-col justify-between min-h-full bg-gray-800 text-white">
 			<div className="px-3 py-2 flex-1">
 				<Link href="/dashboard" className="flex items-center mb-14 gap-4">
 					<div className="relative size-8">
@@ -104,6 +109,7 @@ export function Sidebar() {
 					))}
 				</nav>
 			</div>
+			<FreeTrialCounter apiLimitCount={apiLimitCount} />
 		</div>
 	);
 }
