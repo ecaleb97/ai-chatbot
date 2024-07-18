@@ -12,9 +12,26 @@ import { tools } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Check, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function ProModal() {
 	const { isOpen, onCloseModal } = useProModal();
+	const [loading, setLoading] = useState(false);
+
+	const handleSubscribe = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get("/api/stripe");
+			window.location.href = response.data.url;
+		} catch (error) {
+			toast.error("Something went wrong");
+			console.error(error, "STRIPE_CLIENT_ERROR");
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onCloseModal}>
@@ -22,7 +39,7 @@ export function ProModal() {
 				<DialogHeader>
 					<DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
 						<div className="flex items-center gap-x-2 font-bold py-1">
-							Upgrade to genius
+							Upgrade to AI Generator
 							<Badge className="uppercase text-sm py-1" variant="premium">
 								Pro
 							</Badge>
@@ -47,7 +64,13 @@ export function ProModal() {
 					</div>
 				</DialogHeader>
 				<DialogFooter>
-					<Button size={"lg"} variant={"premium"} className="w-full">
+					<Button
+						disabled={loading}
+						size={"lg"}
+						variant={"premium"}
+						className="w-full"
+						onClick={handleSubscribe}
+					>
 						Upgrade
 						<Zap className="size-4 ml-2 fill-white" />
 					</Button>
