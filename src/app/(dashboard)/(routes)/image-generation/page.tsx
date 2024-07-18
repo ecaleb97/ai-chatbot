@@ -27,9 +27,12 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "sonner";
 
 export default function ImageGenerationPage() {
 	const router = useRouter();
+	const { onOpenModal } = useProModal();
 	const [images, setImages] = useState<string[]>([]);
 	const form = useForm<z.infer<typeof imagesGeneratorSchema>>({
 		resolver: zodResolver(imagesGeneratorSchema),
@@ -57,7 +60,12 @@ export default function ImageGenerationPage() {
 			setImages((current) => [...current, ...urls]);
 			console.log(images);
 			form.reset();
-		} catch (error) {
+		} catch (error: any) {
+			if (error?.response?.status === 403) {
+				onOpenModal();
+			} else {
+				toast.error("Something went wrong");
+			}
 			console.log(error);
 		} finally {
 			router.refresh();
