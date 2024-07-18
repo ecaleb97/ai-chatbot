@@ -24,7 +24,6 @@ export async function increaseApiLimit() {
 			.where(eq(userApiLimit.userId, userId));
 	} else {
 		await db.insert(userApiLimit).values({
-			id: createId(),
 			userId: userId,
 			count: 1,
 		});
