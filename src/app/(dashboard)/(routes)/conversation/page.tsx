@@ -1,36 +1,35 @@
 "use client";
 
 import { Heading } from "@/components/heading/heading";
-import { MessageSquare } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { conversationSchema } from "./schema";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useChat } from "ai/react";
-import { cn } from "@/lib/utils";
+import { AIAvatar } from "@/components/share/ai-avatar";
 import { Empty } from "@/components/share/empty";
 import { Loader } from "@/components/share/loader";
 import { UserAvatar } from "@/components/share/user-avatar";
-import { AIAvatar } from "@/components/share/ai-avatar";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useChat } from "ai/react";
+import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { conversationSchema } from "./schema";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 export default function ConversationPage() {
 	const router = useRouter();
-	// const [messages, setMessages] = useState<ChatCompletionUserMessageParam[]>(
-	// 	[],
-	// );
-	const { messages, handleSubmit, handleInputChange, input, error } = useChat({
-		api: "/api/conversation",
-		onFinish: () => {
-			router.refresh();
-		},
-	});
+	const { onOpenModal } = useProModal();
+	const { messages, handleSubmit, handleInputChange, input, error, isLoading } =
+		useChat({
+			api: "/api/conversation",
+			onFinish: () => {
+				router.refresh();
+			},
+		});
 	const form = useForm<z.infer<typeof conversationSchema>>({
 		resolver: zodResolver(conversationSchema),
 		defaultValues: {
@@ -38,46 +37,14 @@ export default function ConversationPage() {
 		},
 	});
 
-	const isLoading = form.formState.isSubmitting;
-
-	// const onSubmit = async (values: z.infer<typeof conversationSchema>) => {
-	// 	try {
-	// 		const userMessage: ChatCompletionUserMessageParam = {
-	// 			role: "user",
-	// 			content: values.prompt,
-	// 		};
-	// 		const newMessages = [...messages, userMessage];
-	// 		const response = await axios.post("/api/conversation", {
-	// 			messages: newMessages,
-	// 		});
-	// 		console.log(response);
-	// 		setMessages((current) => [...current, userMessage, response.data]);
-	// 		form.reset();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	} finally {
-	// 		router.refresh();
-	// 	}
-	// };
-
 	useEffect(() => {
 		if (error) {
-			toast.error(error.message);
+			onOpenModal();
+			toast.error(error.message, {
+				className: "bg-red-200",
+			});
 		}
-	}, [error]);
-
-	const onSubmit = () => {
-		try {
-			handleSubmit();
-			form.reset();
-		} catch (error) {
-			console.log(error);
-		} finally {
-			router.refresh();
-		}
-	};
-
-	console.log(messages);
+	}, [error, onOpenModal]);
 
 	return (
 		<div>
@@ -94,7 +61,7 @@ export default function ConversationPage() {
 						<form
 							onSubmit={handleSubmit}
 							// onSubmit={form.handleSubmit(onSubmit)}
-							className="rounded-lg border w-full p-4 px-4 md:px-6 
+							className="rounded-lg border w-full p-4 px-4 md:px-6
 							focus-within:shadow-sm grid grid-cols-12 gap-2"
 						>
 							<FormField
@@ -109,7 +76,7 @@ export default function ConversationPage() {
 												onChange={handleInputChange}
 												value={input}
 												// {...field}
-												className="border-0 outline-none focus-visible:ring-0 
+												className="border-0 outline-none focus-visible:ring-0
 												focus-visible:ring-transparent"
 											/>
 										</FormControl>
@@ -141,7 +108,7 @@ export default function ConversationPage() {
 						{messages.map((message) => {
 							return (
 								<div
-									key={String(message.content)}
+									key={crypto.randomUUID()}
 									className={cn("flex flex-col justify-start", {
 										"justify-end items-end": message.role === "user",
 									})}
@@ -152,7 +119,7 @@ export default function ConversationPage() {
 										</div>
 										<div
 											className={cn(
-												`flex flex-col p-4 rounded-lg bg-slate-100 w-fit 
+												`flex flex-col p-4 rounded-lg bg-slate-100 w-fit
 											whitespace-pre-wrap text-sm text-slate-500`,
 												{
 													"bg-slate-100": message.role !== "user",

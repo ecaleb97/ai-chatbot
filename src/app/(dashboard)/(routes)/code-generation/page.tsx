@@ -3,13 +3,10 @@
 import { Heading } from "@/components/heading/heading";
 import { Code } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { codeGenerationSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,10 +17,13 @@ import { AIAvatar } from "@/components/share/ai-avatar";
 import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
 import ReactMarkdown from "react-markdown";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function CodeGenerationPage() {
 	const router = useRouter();
-	// const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
+	const { onOpenModal } = useProModal();
 	const form = useForm<z.infer<typeof codeGenerationSchema>>({
 		resolver: zodResolver(codeGenerationSchema),
 		defaultValues: {
@@ -31,44 +31,20 @@ export default function CodeGenerationPage() {
 		},
 	});
 
-	const { handleSubmit, messages, input, isLoading, handleInputChange } =
+	const { handleSubmit, messages, input, isLoading, handleInputChange, error } =
 		useChat({
 			api: "/api/code",
+			onFinish: () => {
+				router.refresh();
+			}
 		});
 
-	// const isLoading = form.formState.isSubmitting;
-
-	// const onSubmit = async (values: z.infer<typeof codeGenerationSchema>) => {
-	// 	try {
-	// 		const userMessage: ChatCompletionMessageParam = {
-	// 			role: "user",
-	// 			content: values.prompt,
-	// 		};
-
-	// 		const newMessages = [...messages, userMessage];
-	// 		const response = await axios.post("/api/code", {
-	// 			messages: newMessages,
-	// 		});
-	// 		console.log(response);
-	// 		setMessages((current) => [...current, userMessage, response.data]);
-	// 		form.reset();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	} finally {
-	// 		router.refresh();
-	// 	}
-	// };
-
-	// const onSubmit = () => {
-	// 	try {
-	// 		handleSubmit();
-	// 		form.reset();
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	} finally {
-	// 		router.refresh();
-	// 	}
-	// };
+	useEffect(() => {
+		if (error) {
+			onOpenModal();
+			toast.error(error.message);
+		}
+	}, [onOpenModal, error])
 
 	return (
 		<div>
@@ -90,6 +66,7 @@ export default function CodeGenerationPage() {
 						>
 							<FormField
 								name="prompt"
+								control={form.control}
 								render={({ field }) => (
 									<FormItem className="col-span-12 lg:col-span-10">
 										<FormControl>
