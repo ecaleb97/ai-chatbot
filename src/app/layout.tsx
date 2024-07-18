@@ -23,7 +23,7 @@ export default function RootLayout({
 				<body className={inter.className}>
 					<ModalProvider />
 					{children}
-					<Toaster />
+					<Toaster richColors />
 				</body>
 			</html>
 		</ClerkProvider>
