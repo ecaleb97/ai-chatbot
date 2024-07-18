@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 export async function POST(req: Request) {
 	try {
@@ -18,8 +19,9 @@ export async function POST(req: Request) {
 		}
 
 		const hasFreeTrial = await checkApiLimit();
+		const isPro = await checkSubscription();
 
-		if (!hasFreeTrial) {
+		if (!hasFreeTrial && !isPro) {
 			return new NextResponse("You have reached the free trial limit", {
 				status: 403,
 			});
@@ -32,8 +34,10 @@ export async function POST(req: Request) {
 			messages,
 		});
 
-		await increaseApiLimit();
-
+		if (!isPro) {
+			await increaseApiLimit();
+		}
+		
 		return response.toAIStreamResponse();
 	} catch (error) {
 		console.log("[CODE_GENERATOR_ERROR]", error);
