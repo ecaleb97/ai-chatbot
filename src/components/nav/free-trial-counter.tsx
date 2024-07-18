@@ -6,13 +6,16 @@ import { MAX_FREE_COUNTS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Zap } from "lucide-react";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 type Props = {
 	apiLimitCount: number;
+	isPro: boolean;
 };
 
-export function FreeTrialCounter({ apiLimitCount = 0 }: Props) {
+export function FreeTrialCounter({ apiLimitCount = 0, isPro = false }: Props) {
 	const [mounted, setMounted] = useState(false);
+	const { onOpenModal } = useProModal();
 
 	useEffect(() => {
 		setMounted(true);
@@ -21,6 +24,8 @@ export function FreeTrialCounter({ apiLimitCount = 0 }: Props) {
 	if (!mounted) {
 		return null;
 	}
+
+	if (isPro) return null;
 
 	return (
 		<div className="px-6">
@@ -35,7 +40,7 @@ export function FreeTrialCounter({ apiLimitCount = 0 }: Props) {
 							value={(apiLimitCount / MAX_FREE_COUNTS) * 100}
 						/>
 					</div>
-					<Button variant="premium">
+					<Button variant="premium" onClick={onOpenModal}>
 						Upgrade <Zap className="size-4 ml-2" />
 					</Button>
 				</CardContent>
