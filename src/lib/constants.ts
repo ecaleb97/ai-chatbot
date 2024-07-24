@@ -39,3 +39,34 @@ export const tools = [
 ];
 
 export const MAX_FREE_COUNTS = 5;
+
+export const testimonials = [
+	{
+		name: "Caleb",
+		avatar: "C",
+		title: "Software Engineer",
+		description:
+			"I love the simplicity of the tool. It's easy to use and the results are amazing.",
+	},
+	{
+		name: "Caleb",
+		avatar: "C",
+		title: "Software Engineer",
+		description:
+			"I love the simplicity of the tool. It's easy to use and the results are amazing.",
+	},
+	{
+		name: "Caleb",
+		avatar: "C",
+		title: "Software Engineer",
+		description:
+			"I love the simplicity of the tool. It's easy to use and the results are amazing.",
+	},
+	{
+		name: "Caleb",
+		avatar: "C",
+		title: "Software Engineer",
+		description:
+			"I love the simplicity of the tool. It's easy to use and the results are amazing.",
+	},
+];
