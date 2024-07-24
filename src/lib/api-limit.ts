@@ -2,7 +2,6 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { userApiLimit } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { createId } from "@paralleldrive/cuid2";
 import { MAX_FREE_COUNTS } from "./constants";
 
 export async function increaseApiLimit() {
