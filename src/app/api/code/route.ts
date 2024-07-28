@@ -5,10 +5,10 @@ import { openai } from "@ai-sdk/openai";
 import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
 	try {
 		const { userId } = auth();
-		const { messages } = await req.json();
+		const { messages } = await request.json();
 
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
@@ -29,15 +29,15 @@ export async function POST(req: Request) {
 
 		const response = await streamText({
 			model: openai("gpt-4-turbo"),
-			system:
-				"You are a code generator. You must answer only in markdown code snippets. Use code comments for explanations.",
+			system: `You are a code generator. You must answer only in markdown code snippets. 
+				Use code comments for explanations.`,
 			messages,
 		});
 
 		if (!isPro) {
 			await increaseApiLimit();
 		}
-		
+
 		return response.toAIStreamResponse();
 	} catch (error) {
 		console.log("[CODE_GENERATOR_ERROR]", error);
