@@ -7,8 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"prettier:format": "pnpm exec prettier . --write",
-		"prettier:check": "prettier . --check",
+		"format": "pnpm exec prettier . --write",
+		"check": "prettier . --check",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio"
@@ -21,6 +21,7 @@
 		"@radix-ui/react-avatar": "^1.1.0",
 		"@radix-ui/react-dialog": "^1.1.1",
 		"@radix-ui/react-label": "^2.1.0",
+		"@radix-ui/react-popover": "^1.1.1",
 		"@radix-ui/react-progress": "^1.1.0",
 		"@radix-ui/react-select": "^2.1.1",
 		"@radix-ui/react-slot": "^1.1.0",
