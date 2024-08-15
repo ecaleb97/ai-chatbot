@@ -18,7 +18,7 @@ export function LandingNavbar() {
 				</div>
 				<h1
 					className={cn(
-						"text-[1rem] sm:text-2xl font-bold text-white",
+						"text-[1rem] sm:text-2xl font-bold text-black",
 						montserrat.className,
 					)}
 				>
@@ -26,8 +26,8 @@ export function LandingNavbar() {
 				</h1>
 			</Link>
 			<div>
-				<Button asChild variant="outline" className="rounded-full">
-					<Link href={isSignedIn ? "/dashboard" : "/sign-up"}>Get Started</Link>
+				<Button asChild className="rounded-full hover:bg-black/80">
+					<Link href={isSignedIn ? "/dashboard" : "/sign-up"}>{isSignedIn ? "Dashboard" : "Get Started"}</Link>
 				</Button>
 			</div>
 		</nav>
