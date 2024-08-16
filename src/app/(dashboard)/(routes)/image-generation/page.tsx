@@ -73,7 +73,7 @@ export default function ImageGenerationPage() {
 	};
 
 	return (
-		<div>
+		<div className="pt-2 sm:pt-8">
 			<Heading
 				title="Image Generator"
 				description="Generate images using descriptive text"
@@ -81,7 +81,7 @@ export default function ImageGenerationPage() {
 				bgColor="bg-pink-500/10"
 				icon={ImageIcon}
 			/>
-			<div className="px-4 lg:px-8">
+			<div>
 				<div>
 					<Form {...form}>
 						<form

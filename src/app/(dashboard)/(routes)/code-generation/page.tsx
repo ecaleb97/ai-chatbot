@@ -36,7 +36,7 @@ export default function CodeGenerationPage() {
 			api: "/api/code",
 			onFinish: () => {
 				router.refresh();
-			}
+			},
 		});
 
 	useEffect(() => {
@@ -44,10 +44,10 @@ export default function CodeGenerationPage() {
 			onOpenModal();
 			toast.error(error.message);
 		}
-	}, [onOpenModal, error])
+	}, [onOpenModal, error]);
 
 	return (
-		<div>
+		<div className="pt-2 sm:pt-8">
 			<Heading
 				title="Code Generator"
 				description="Generate code using descriptive text"
@@ -55,7 +55,7 @@ export default function CodeGenerationPage() {
 				bgColor="bg-blue-500/10"
 				icon={Code}
 			/>
-			<div className="px-4 lg:px-8">
+			<div className="">
 				<div>
 					<Form {...form}>
 						<form

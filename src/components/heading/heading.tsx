@@ -17,13 +17,13 @@ export function Heading({
 	bgColor,
 }: HeadingProps) {
 	return (
-		<div className="flex items-center gap-3 mb-8 px-4 lg:px-8">
+		<div className="flex items-center gap-3 mb-8">
 			<div className={cn("p-2 w-fit rounded-md", bgColor)}>
 				<Icon className={cn("size-10", iconColor)} />
 			</div>
 			<div>
-				<h2 className="text-3xl font-bold">{title}</h2>
-				<p className="text-sm text-muted-foreground">{description}</p>
+				<h2 className="text-xl sm:text-2xl text-balance font-medium">{title}</h2>
+				<p className="text-sm text-muted-foreground text-pretty">{description}</p>
 			</div>
 		</div>
 	);

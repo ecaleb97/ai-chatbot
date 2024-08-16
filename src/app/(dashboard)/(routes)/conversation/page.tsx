@@ -47,7 +47,7 @@ export default function ConversationPage() {
 	}, [error, onOpenModal]);
 
 	return (
-		<div>
+		<div className="pt-2 sm:pt-8">
 			<Heading
 				title="Conversation"
 				description="Our most conversation model"
@@ -55,7 +55,7 @@ export default function ConversationPage() {
 				bgColor="bg-violet-500/10"
 				icon={MessageSquare}
 			/>
-			<div className="px-4 lg:px-8">
+			<div className="">
 				<div>
 					<Form {...form}>
 						<form
