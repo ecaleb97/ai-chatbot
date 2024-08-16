@@ -27,7 +27,9 @@ export function LandingNavbar() {
 			</Link>
 			<div>
 				<Button asChild className="rounded-full hover:bg-black/80">
-					<Link href={isSignedIn ? "/dashboard" : "/sign-up"}>{isSignedIn ? "Dashboard" : "Get Started"}</Link>
+					<Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+						{isSignedIn ? "Dashboard" : "Get Started"}
+					</Link>
 				</Button>
 			</div>
 		</nav>
