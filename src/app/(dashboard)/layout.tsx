@@ -1,7 +1,8 @@
-import { DashboardNavbar, Navbar } from "@/components/nav/navbar";
+import { Navbar } from "@/components/nav/navbar";
 import { Sidebar } from "@/components/nav/sidebar";
 import { getApiLimitCount } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
+import { DashboardNavbar } from "@/components/nav/dashboard-navbar";
 
 type DashboardLayoutProps = {
 	children: React.ReactNode;
