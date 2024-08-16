@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/nav/navbar";
+import { DashboardNavbar, Navbar } from "@/components/nav/navbar";
 import { Sidebar } from "@/components/nav/sidebar";
 import { getApiLimitCount } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
@@ -13,17 +13,24 @@ export default async function DashboardLayout({
 	const apiLimitCount = await getApiLimitCount();
 	const isPro = await checkSubscription();
 
+	// return (
+	// 	<div className="min-h-full relative">
+	// 		<div className="hidden min-h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 bg-gray-800">
+	// 			<div>
+	// 				<Sidebar apiLimitCount={apiLimitCount} isPro={isPro} />
+	// 			</div>
+	// 		</div>
+	// 		<main className="md:pl-72">
+	// 			<Navbar />
+	// 			{children}
+	// 		</main>
+	// 	</div>
+	// );
+
 	return (
-		<div className="min-h-full relative">
-			<div className="hidden min-h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 bg-gray-800">
-				<div>
-					<Sidebar apiLimitCount={apiLimitCount} isPro={isPro} />
-				</div>
-			</div>
-			<main className="md:pl-72">
-				<Navbar />
-				{children}
-			</main>
+		<div className="min-h-dvh max-w-7xl mx-auto px-4">
+			<DashboardNavbar />
+			{children}
 		</div>
 	);
 }
