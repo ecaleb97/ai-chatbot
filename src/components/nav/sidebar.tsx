@@ -70,7 +70,7 @@ type Props = {
 	isPro: boolean;
 };
 
-export function Sidebar({ apiLimitCount, isPro = false}: Props) {
+export function Sidebar({ apiLimitCount, isPro = false }: Props) {
 	const pathname = usePathname();
 
 	return (
