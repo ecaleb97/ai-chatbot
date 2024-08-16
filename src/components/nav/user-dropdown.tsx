@@ -4,14 +4,17 @@ import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { SignOutButton, useUser } from "@clerk/nextjs";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
 import { dropdownRoutes } from "@/lib/data";
 import { DropdownLinks } from "./dropdown-links";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function UserDropdown() {
 	const { user } = useUser();
 	const [open, setOpen] = useState(false);
+	const pathname = usePathname();
 
 	const handleOpenPopover = () => {
 		setOpen((prevState) => !prevState);
@@ -55,15 +58,26 @@ export function UserDropdown() {
 								</>
 							)}
 						</div>
-						{dropdownRoutes.map((route) => (
-							<DropdownLinks
-								key={route.href}
-								label={route.label}
-								href={route.href}
-								icon={route.icon}
-								onClick={handleOpenPopover}
-							/>
-						))}
+						<ul>
+							{dropdownRoutes.map((route) => (
+								<li
+									key={route.href}
+									className={cn(
+										`hover:bg-gray-100 active:bg-gray-200 rounded-md`,
+										pathname === route.href && "bg-gray-100",
+									)}
+								>
+									<DropdownLinks
+										key={route.href}
+										label={route.label}
+										href={route.href}
+										icon={route.icon}
+										onClick={handleOpenPopover}
+									/>
+								</li>
+							))}
+						</ul>
+
 						<SignOutButton redirectUrl="/">
 							<button
 								className="flex w-full items-center gap-2 p-2 rounded-md text-sm transition-all 
