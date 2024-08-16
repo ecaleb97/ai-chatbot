@@ -22,8 +22,12 @@ export function Heading({
 				<Icon className={cn("size-10", iconColor)} />
 			</div>
 			<div>
-				<h2 className="text-xl sm:text-2xl text-balance font-medium">{title}</h2>
-				<p className="text-sm text-muted-foreground text-pretty">{description}</p>
+				<h2 className="text-xl sm:text-2xl text-balance font-medium">
+					{title}
+				</h2>
+				<p className="text-sm text-muted-foreground text-pretty">
+					{description}
+				</p>
 			</div>
 		</div>
 	);
